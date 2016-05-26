@@ -1,19 +1,19 @@
 # Issues
 
-**TODO: Add description**
+A small Elixir project to fetch issues from Github
 
-## Installation
+## How to run
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+```
+  mix escript.build
+  ./issues dynamo dynamo 2
 
-  1. Add issues to your list of dependencies in `mix.exs`:
+  num | created_at           | title
+----+----------------------+-------------------------------------------------------------------------------------
+104 | 2013-07-26T18:57:18Z | Include params from url encoded post body with call to Dynamo.Connection.Test.params
+108 | 2013-07-29T13:56:14Z | Part of a template content section gets rerendered in template body
+```
 
-        def deps do
-          [{:issues, "~> 0.0.1"}]
-        end
-
-  2. Ensure issues is started before your application:
-
-        def application do
-          [applications: [:issues]]
-        end
+```
+./issues -help
+```
