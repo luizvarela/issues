@@ -1,8 +1,33 @@
 defmodule IssuesTest do
   use ExUnit.Case
+
+  import Issues.CLI, only: [parse_args: 1,
+    sort_into_ascending_order: 1,
+    convert_to_list_of_hashdicts: 1]
+
   doctest Issues
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  test ":help returned by option parsing with -h and -help options" do
+    assert parse_args(["-h", "anything"]) == :help
+    assert parse_args(["-help", "anything"]) == :help
+  end
+
+  test "three values returned if three given" do
+    assert parse_args(["user", "project", "99"]) == {"user", "project", 99}
+  end
+
+  test "count is defaulted with two values given" do
+    assert parse_args(["user", "project"]) == {"user", "project", 4}
+  end
+
+  test "sort ascending orders the correct way" do
+    result = sort_into_ascending_order(fake_created_at_list(["c", "b", "a"]))
+    issues = for issue <- result, do: issue["created_at"]
+    assert issues == ["a", "b", "c"]
+  end
+
+  defp fake_created_at_list(values) do
+    data = for value <- values, do: [{"created_at", value}, {"other_data", "test"}]
+    convert_to_list_of_hashdicts data
   end
 end
